@@ -29,37 +29,25 @@ import { useState, useEffect } from 'react';
 import Swal from 'sweetalert2/dist/sweetalert2.js';
 import 'sweetalert2/src/sweetalert2.scss';
 
+import {
+    useHistory
+} from "react-router-dom"; // import for redirect
 // const WidgetsDropdown = lazy(() => import('../widgets/WidgetsDropdown.js'))
 // const WidgetsBrand = lazy(() => import('../widgets/WidgetsBrand.js'))
 
 const Editstock = () => {
-    const [stocks, setStocks] = useState([
-        // {
-        //     name: 'test',
-        //     price: '10'
-        // },
-        // {
-        //     name: 'test2',
-        //     price: '11'
-        // },
-        // {
-        //     name: 'test3',
-        //     price: '12'
-        // },
-        // {
-        //     name: 'test4',
-        //     price: '13'
-        // }
-    ]);
+    const [stocks, setStocks] = useState([]);
     const [edit, setEdit] = useState(false);
     const [modal, setModal] = useState(false);
     const [editStock, setEditStock] = useState({
+        id: "",
         name: "",
         price: "",
     });
-
+    const history = useHistory();
     function btnEdit(item) {
         setEditStock({
+            id: item.id,
             name: item.name,
             price: item.price
         });
@@ -79,32 +67,33 @@ const Editstock = () => {
     function handleSubmit(e) {
         console.log("Edit")
         e.preventDefault();
-        let url = 'http://127.0.0.1:8002/api/stock/';
-        // fetch(url, {
-        //     method: "POST",
-        //     headers: {
-        //         "Content-type": "application/json"
-        //     },
-        //     body: JSON.stringify(editStock),
-        // }).then((response) => {
-        //     Swal.fire({
-        //         confirmButtonText: `DONE`,
-        //         icon: 'success',
-        //     }).then((result) => {
-        //         if (result.isConfirmed) {
-        //             setEditStock({
-        //                 name: '',
-        //                 price: ''
-        //             })
-        //         }
-        //     })
-        // }).catch((err) => {
-        //     Swal.fire({
-        //         title: 'Error',
-        //         confirmButtonText: `DONE`,
-        //         icon: 'error',
-        //     })
-        // });
+        let url = 'http://127.0.0.1:8002/api/stock/'+editStock.id+'/';
+        fetch(url, {
+            method: "PUT",
+            headers: {
+                "Content-type": "application/json"
+            },
+            body: JSON.stringify(editStock),
+        }).then((response) => {
+            Swal.fire({
+                confirmButtonText: `DONE`,
+                icon: 'success',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    history.push("/viewstock");
+                    // setEditStock({
+                    //     name: '',
+                    //     price: ''
+                    // })
+                }
+            })
+        }).catch((err) => {
+            Swal.fire({
+                title: 'Error',
+                confirmButtonText: `DONE`,
+                icon: 'error',
+            })
+        });
     }
     return (
         <>
@@ -148,9 +137,10 @@ const Editstock = () => {
                     </CModalHeader>
                     <CForm onSubmit={handleSubmit}>
                     <CModalBody>
-
+                    <input type="hidden" value={editStock.id}></input>
                         <div className="form-group">
                             <label> Stock Name </label>
+                            
                             <input
                                 className="form-control"
                                 type="text"
