@@ -19,18 +19,18 @@ import {
     CRow,
     // CCallout
 } from '@coreui/react'
-// import CIcon from '@coreui/icons-react'
 import { useState, useEffect } from 'react';
-// import MainChartExample from '../charts/MainChartExample.js'
+import { useHistory } from "react-router-dom"; // import for redirect
 
-// const WidgetsDropdown = lazy(() => import('../widgets/WidgetsDropdown.js'))
-// const WidgetsBrand = lazy(() => import('../widgets/WidgetsBrand.js'))
+import Swal from 'sweetalert2/dist/sweetalert2.js'
+import 'sweetalert2/src/sweetalert2.scss'
 
 const Addstock = () => {
     const [newStock, setNewStock] = useState({
         name: "",
         price: "",
     });
+    const history = useHistory();
     function handleSubmit(e) {
         e.preventDefault();
         let url = 'http://127.0.0.1:8002/api/stock/';
@@ -39,8 +39,16 @@ const Addstock = () => {
             headers: { "Content-type": "application/json" },
             body: JSON.stringify(newStock),
         }).then((response) => {
-            // fetchStocks();
-            setNewStock({ name: '', price: '' })
+            Swal.fire({
+                confirmButtonText: `DONE`,
+                icon: 'success',
+              }).then((result) => {
+                if (result.isConfirmed) {
+                    setNewStock({ name: '', price: '' })
+                    history.push("/viewstock");
+                }
+              })
+            
         })
             .catch((err) => console.log(err));
     }
