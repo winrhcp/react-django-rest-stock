@@ -34,22 +34,22 @@ import 'sweetalert2/src/sweetalert2.scss';
 
 const Editstock = () => {
     const [stocks, setStocks] = useState([
-        {
-            name: 'test',
-            price: '10'
-        },
-        {
-            name: 'test2',
-            price: '11'
-        },
-        {
-            name: 'test3',
-            price: '12'
-        },
-        {
-            name: 'test4',
-            price: '13'
-        }
+        // {
+        //     name: 'test',
+        //     price: '10'
+        // },
+        // {
+        //     name: 'test2',
+        //     price: '11'
+        // },
+        // {
+        //     name: 'test3',
+        //     price: '12'
+        // },
+        // {
+        //     name: 'test4',
+        //     price: '13'
+        // }
     ]);
     const [edit, setEdit] = useState(false);
     const [modal, setModal] = useState(false);
@@ -67,43 +67,44 @@ const Editstock = () => {
     }
 
     useEffect(async () => {
-        // try {
-        //     const res = await fetch('http://127.0.0.1:8002/api/stock/')
-        //     const stock_data = await res.json()
-        //     setStocks(stock_data)
-        // } catch (error) {
-        //     console.log(error)
-        // }
+        try {
+            const res = await fetch('http://127.0.0.1:8002/api/stock/')
+            const stock_data = await res.json()
+            setStocks(stock_data)
+        } catch (error) {
+            console.log(error)
+        }
     }, []);
 
     function handleSubmit(e) {
+        console.log("Edit")
         e.preventDefault();
         let url = 'http://127.0.0.1:8002/api/stock/';
-        fetch(url, {
-            method: "POST",
-            headers: {
-                "Content-type": "application/json"
-            },
-            body: JSON.stringify(editStock),
-        }).then((response) => {
-            Swal.fire({
-                confirmButtonText: `DONE`,
-                icon: 'success',
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    setEditStock({
-                        name: '',
-                        price: ''
-                    })
-                }
-            })
-        }).catch((err) => {
-            Swal.fire({
-                title: 'Error',
-                confirmButtonText: `DONE`,
-                icon: 'error',
-            })
-        });
+        // fetch(url, {
+        //     method: "POST",
+        //     headers: {
+        //         "Content-type": "application/json"
+        //     },
+        //     body: JSON.stringify(editStock),
+        // }).then((response) => {
+        //     Swal.fire({
+        //         confirmButtonText: `DONE`,
+        //         icon: 'success',
+        //     }).then((result) => {
+        //         if (result.isConfirmed) {
+        //             setEditStock({
+        //                 name: '',
+        //                 price: ''
+        //             })
+        //         }
+        //     })
+        // }).catch((err) => {
+        //     Swal.fire({
+        //         title: 'Error',
+        //         confirmButtonText: `DONE`,
+        //         icon: 'error',
+        //     })
+        // });
     }
     return (
         <>
@@ -141,10 +142,11 @@ const Editstock = () => {
                 onClose={setModal}
                 centered={true}
             >
-                <CForm onSubmit={handleSubmit}>
+                
                     <CModalHeader closeButton>
                         {/* <CModalTitle>Modal title</CModalTitle> */}
                     </CModalHeader>
+                    <CForm onSubmit={handleSubmit}>
                     <CModalBody>
 
                         <div className="form-group">

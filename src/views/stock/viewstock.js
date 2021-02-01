@@ -34,21 +34,22 @@ const Viewstock = () => {
             const stock_data = await res.json()
             setStocks(stock_data);
         } catch (error) {
-            Swal.fire({
-                title: 'Error',
-                confirmButtonText: `DONE`,
-                icon: 'error',
-            })
-            setStocks([]);
+            // Swal.fire({
+            //     title: 'Error',
+            //     confirmButtonText: `DONE`,
+            //     icon: 'error',
+            // })
+            // setStocks([]);
         }
     }, [])
     return (
         <>
             <CRow>
                 {stocks.map(item => {
-                    console.log(stocks.length)
-                    {
-                        stocks.length > 0 ? (
+                    // console.log(stocks.length)
+                    return(
+                    // {
+                    //     stocks.length > 0 ? (
                             <CCol sm="4">
                                 <CCard className="p-3 bg-secondary">
                                     <div key={item.name}>
@@ -57,12 +58,13 @@ const Viewstock = () => {
                                     </div>
                                 </CCard>
                             </CCol>
-                        ) : stocks.length <= 0 && (
-                            <CCol sm="12">
-                                <h1>ไม่พบข้อมูล</h1>
-                            </CCol>
-                        )
-                    }
+                    //     ) : stocks.length <= 0 && (
+                    //         <CCol sm="12">
+                    //             <h1>ไม่พบข้อมูล</h1>
+                    //         </CCol>
+                    //     )
+                    // }
+                    )
                 })}
             </CRow>
         </>
