@@ -35,18 +35,17 @@ import {
 // const WidgetsDropdown = lazy(() => import('../widgets/WidgetsDropdown.js'))
 // const WidgetsBrand = lazy(() => import('../widgets/WidgetsBrand.js'))
 
-const Editstock = () => {
+const Deletestock = () => {
     const [stocks, setStocks] = useState([]);
-    // const [edit, setEdit] = useState(false);
     const [modal, setModal] = useState(false);
-    const [editStock, setEditStock] = useState({
+    const [deleteStock, setDeleteStock] = useState({
         id: "",
         name: "",
         price: "",
     });
     const history = useHistory();
     function btnEdit(item) {
-        setEditStock({
+        setDeleteStock({
             id: item.id,
             name: item.name,
             price: item.price
@@ -67,13 +66,13 @@ const Editstock = () => {
     function handleSubmit(e) {
         console.log("Edit")
         e.preventDefault();
-        let url = 'http://127.0.0.1:8002/api/stock/'+editStock.id+'/';
+        let url = 'http://127.0.0.1:8002/api/stock/'+deleteStock.id+'/';
         fetch(url, {
-            method: "PUT",
+            method: "DELETE",
             headers: {
                 "Content-type": "application/json"
             },
-            body: JSON.stringify(editStock),
+            body: JSON.stringify(deleteStock),
         }).then((response) => {
             Swal.fire({
                 confirmButtonText: `DONE`,
@@ -111,7 +110,7 @@ const Editstock = () => {
                                             className="btn btn-info"
                                             onClick={() => btnEdit(item)}
                                         >
-                                            Edit
+                                            Delete
                                         </button>
                                     </div>
                                 </CCol>
@@ -137,7 +136,7 @@ const Editstock = () => {
                     </CModalHeader>
                     <CForm onSubmit={handleSubmit}>
                     <CModalBody>
-                    <input type="hidden" value={editStock.id}></input>
+                    <input type="hidden" value={deleteStock.id}></input>
                         <div className="form-group">
                             <label> Stock Name </label>
                             
@@ -145,11 +144,11 @@ const Editstock = () => {
                                 className="form-control"
                                 type="text"
                                 value={
-                                    editStock.name
+                                    deleteStock.name
                                 }
                                 onChange={
-                                    (e) => setEditStock({
-                                        ...editStock,
+                                    (e) => setDeleteStock({
+                                        ...deleteStock,
                                         name: e.target.value
                                     })
                                 }
@@ -160,10 +159,10 @@ const Editstock = () => {
                             <input
                                 className="form-control"
                                 type="text"
-                                value={editStock.price}
+                                value={deleteStock.price}
                                 onChange={
-                                    (e) => setEditStock({
-                                        ...editStock,
+                                    (e) => setDeleteStock({
+                                        ...deleteStock,
                                         price: e.target.value
                                     })
                                 }
@@ -189,4 +188,4 @@ const Editstock = () => {
     )
 }
 
-export default Editstock
+export default Deletestock
